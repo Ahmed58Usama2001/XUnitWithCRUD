@@ -1,4 +1,5 @@
 ﻿using Entities;
+using ServiceContracts.DTO.Enums;
 
 namespace ServiceContracts.DTO;
 
@@ -20,6 +21,20 @@ public class PersonResponse
 
     public bool ReceiveNewsLetters { get; set; }
 
+    public override string ToString()
+    {
+        return $"PersonId: {PersonId}, " +
+               $"PersonName: {PersonName ?? "N/A"}, " +
+               $"Email: {Email ?? "N/A"}, " +
+               $"DateOfBirth: {DateOfBirth?.ToString("yyyy-MM-dd") ?? "N/A"}, " +
+               $"Gender: {Gender ?? "N/A"}, " +
+               $"CountryId: {CountryId?.ToString() ?? "N/A"}, " +
+               $"Country: {Country ?? "N/A"}, " +
+               $"Address: {Address ?? "N/A"}, " +
+               $"Age: {Age?.ToString() ?? "N/A"}, " +
+               $"ReceiveNewsLetters: {ReceiveNewsLetters}";
+    }
+
     public override bool Equals(object? obj)
     {
         if(obj is null)
@@ -37,6 +52,11 @@ public class PersonResponse
     public override int GetHashCode()
     {
         return base.GetHashCode();
+    }
+
+    public PersonUpdateRequest ToPersonUpdateRequest()
+    {
+        return new PersonUpdateRequest() { PersonId = PersonId, PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth, Gender = (GenderOptions)Enum.Parse(typeof(GenderOptions), Gender, true), Address = Address, CountryId = CountryId, ReceiveNewsLetters = ReceiveNewsLetters };
     }
 }
 
