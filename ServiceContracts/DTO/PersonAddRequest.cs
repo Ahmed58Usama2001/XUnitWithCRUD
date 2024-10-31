@@ -9,7 +9,7 @@ public class PersonAddRequest
     [Required(ErrorMessage ="Person name is required")]
     public string? PersonName { get; set; }
 
-    [Required(ErrorMessage = "Email name is required")]
+    [Required(ErrorMessage = "Email is required")]
     [EmailAddress(ErrorMessage ="Enter a valid email")]
     public string? Email { get; set; }
 

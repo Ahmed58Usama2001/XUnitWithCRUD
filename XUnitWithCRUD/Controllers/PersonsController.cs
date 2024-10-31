@@ -2,16 +2,20 @@
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
+using Services;
+using System.Collections.Generic;
 
 namespace XUnitWithCRUD.Controllers;
 
 public class PersonsController : Controller
 {
     private readonly IPersonService _personService;
+    private readonly ICountriesService _countriesService;
 
-    public PersonsController(IPersonService personService)
+    public PersonsController(IPersonService personService, ICountriesService countriesService)
     {
         _personService = personService;
+        _countriesService = countriesService;
     }
     [Route("persons/index")]
     [Route("/")]
@@ -38,5 +42,33 @@ public class PersonsController : Controller
 
 
         return View(sortedPersons);
+    }
+
+    [Route("persons/create")]
+    [HttpGet]
+    public IActionResult Create()
+    {
+        List<CountryResponse> countries = _countriesService.GetAllCountries();
+        ViewBag.Countries = countries;
+
+        return View();
+    }
+
+    [Route("persons/create")]
+    [HttpPost]
+    public IActionResult Create(PersonAddRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            List<CountryResponse> countries = _countriesService.GetAllCountries();
+            ViewBag.Countries = countries;
+
+            ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            return View();
+        }
+
+        PersonResponse personResponse = _personService.AddPerson(request);
+
+        return RedirectToAction("Index", "Persons");
     }
 }
