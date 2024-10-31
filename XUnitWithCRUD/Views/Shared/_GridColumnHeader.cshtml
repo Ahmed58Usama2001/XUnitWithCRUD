@@ -1,0 +1,31 @@
+﻿@{
+    var columnName = ViewData["ColumnName"]?.ToString();
+
+    var displayName = ViewData["DisplayName"]?.ToString();
+}
+
+@if (ViewBag.CurrentSortBy == columnName && ViewBag.CurrentSortOrder == SortOrderOptions.ASC.ToString())
+
+{
+    <th>
+        <a href="~/persons/index?searchBy=@ViewBag.CurrentSearchBy&searchString=@ViewBag.CurrentSearchString&sortBy=@columnName&sortOrder=@nameof(SortOrderOptions.DESC)">@displayName</a>
+        <i class="fa-solid fa-sort-up"></i>
+    </th>
+}
+
+else if (ViewBag.CurrentSortBy == columnName && ViewBag.CurrentSortOrder == SortOrderOptions.DESC.ToString())
+
+{
+    <th>
+        <a href="~/persons/index?searchBy=@ViewBag.CurrentSearchBy&searchString=@ViewBag.CurrentSearchString&sortBy=@columnName&sortOrder=@nameof(SortOrderOptions.ASC)">@displayName</a>
+        <i class="fa-solid fa-sort-down"></i>
+    </th>
+}
+
+else
+
+{
+    <th>
+        <a href="~/persons/index?searchBy=@ViewBag.CurrentSearchBy&searchString=@ViewBag.CurrentSearchString&sortBy=@columnName&sortOrder=@nameof(SortOrderOptions.ASC)">@displayName</a>
+    </th>
+}
