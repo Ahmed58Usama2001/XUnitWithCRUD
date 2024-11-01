@@ -6,7 +6,7 @@ using Services;
 using System.Collections.Generic;
 
 namespace XUnitWithCRUD.Controllers;
-
+[Route("[controller]")]
 public class PersonsController : Controller
 {
     private readonly IPersonService _personService;
@@ -17,7 +17,7 @@ public class PersonsController : Controller
         _personService = personService;
         _countriesService = countriesService;
     }
-    [Route("persons/index")]
+    [Route("[action]")]
     [Route("/")]
     public IActionResult Index(string searchBy , string? searchString,
         string sortBy = nameof(PersonResponse.PersonName) , SortOrderOptions sortOrder = SortOrderOptions.ASC)
@@ -44,7 +44,7 @@ public class PersonsController : Controller
         return View(sortedPersons);
     }
 
-    [Route("persons/create")]
+    [Route("[action]")]
     [HttpGet]
     public IActionResult Create()
     {
@@ -54,7 +54,7 @@ public class PersonsController : Controller
         return View();
     }
 
-    [Route("persons/create")]
+    [Route("[action]")]
     [HttpPost]
     public IActionResult Create(PersonAddRequest request)
     {
