@@ -11,8 +11,10 @@ public class PersonAddRequest
 
     [Required(ErrorMessage = "Email is required")]
     [EmailAddress(ErrorMessage ="Enter a valid email")]
+    [DataType(DataType.EmailAddress)]
     public string? Email { get; set; }
 
+    [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
 
     public GenderOptions? Gender { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
@@ -49,7 +50,11 @@ public class PersonsController : Controller
     public IActionResult Create()
     {
         List<CountryResponse> countries = _countriesService.GetAllCountries();
-        ViewBag.Countries = countries;
+        ViewBag.Countries = countries.Select(c => new SelectListItem
+        {
+            Text = c.CountryName,
+            Value = c.CountryId.ToString()
+        });
 
         return View();
     }
