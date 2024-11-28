@@ -122,4 +122,28 @@ public class PersonsController : Controller
             return View();
         }
     }
+
+
+    [HttpGet]
+    [Route("[action]/{personId}")]
+    public IActionResult Delete(Guid? personId)
+    {
+        PersonResponse? personResponse = _personService.GetPersonByPersonId(personId);
+        if (personResponse == null)
+            return RedirectToAction("Index");
+
+        return View(personResponse);
+    }
+
+    [HttpPost]
+    [Route("[action]/{personId}")]
+    public IActionResult Delete(PersonUpdateRequest personUpdateResult)
+    {
+        PersonResponse? personResponse = _personService.GetPersonByPersonId(personUpdateResult.PersonId);
+        if (personResponse == null)
+            return RedirectToAction("Index");
+
+        _personService.DeletePerson(personUpdateResult.PersonId);
+        return RedirectToAction("Index");
+    }
 }
