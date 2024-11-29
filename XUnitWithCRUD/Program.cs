@@ -1,3 +1,5 @@
+using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using Services;
 
@@ -12,6 +14,11 @@ namespace XUnitWithCRUD
 
             builder.Services.AddSingleton<ICountriesService, CountriesService>();
             builder.Services.AddSingleton<IPersonService, PersonsService>();
+
+            builder.Services.AddDbContext<PersonsDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+            });
 
 
             var app = builder.Build();
