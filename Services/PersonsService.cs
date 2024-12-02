@@ -1,8 +1,10 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
 using Services.Helpers;
+using System;
 
 namespace Services;
 
@@ -18,13 +20,7 @@ public class PersonsService : IPersonService
         _dbContext = dbContext;
     }
 
-    private PersonResponse ConvertPersonToPersonResponse(Person person)
-    {
-        PersonResponse personResponse = person.ToPersonResponse();
-        personResponse.Country = _countryService.GetCountryByCountryId(personResponse.CountryId)?.CountryName;
-
-        return personResponse;
-    }
+ 
 
     public PersonResponse AddPerson(PersonAddRequest? personAddRequest)
     {
@@ -41,12 +37,16 @@ public class PersonsService : IPersonService
 
         _dbContext.sp_InsertPerson(person);
         
-        return ConvertPersonToPersonResponse(person);
+        return person.ToPersonResponse();
     }
 
     public List<PersonResponse> GetAllPersons()
     {
-        return _dbContext.sp_GetAllPersons().Select(p=>ConvertPersonToPersonResponse(p)).ToList();
+        var persons = _dbContext.Persons.Include(nameof(Person.Country)).ToList();
+
+        return persons.Select(p => p.ToPersonResponse()).ToList();
+
+        //return _dbContext.sp_GetAllPersons().Select(p=>p.ToPersonResponse()).ToList();
     }
 
     public PersonResponse? GetPersonByPersonId(Guid? personId)
@@ -54,12 +54,12 @@ public class PersonsService : IPersonService
         if(personId == null)
             return null;
 
-        Person? person = _dbContext.Persons.FirstOrDefault(p => p.PersonId == personId);
+        Person? person = _dbContext.Persons.Include(nameof(Person.Country)).FirstOrDefault(p => p.PersonId == personId);
 
         if (person == null)
             return null;
 
-        return ConvertPersonToPersonResponse(person);
+        return person.ToPersonResponse();
     }
 
     public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
@@ -182,7 +182,7 @@ public class PersonsService : IPersonService
 
         _dbContext.SaveChanges();
 
-        return ConvertPersonToPersonResponse(matchingPerson);
+        return matchingPerson.ToPersonResponse();
     }
 
     public bool DeletePerson(Guid? personId)

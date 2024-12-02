@@ -20,6 +20,13 @@ public class PersonsDbContext:DbContext
         modelBuilder.Entity<Country>().ToTable("Countries");
         modelBuilder.Entity<Person>().ToTable("Persons");
 
+        modelBuilder.Entity<Person>(entity =>
+        {
+            entity.HasOne(p => p.Country)
+            .WithMany(c => c.Persons)
+            .HasForeignKey(p => p.CountryId);
+        });
+
         string CountriesJson = System.IO.File.ReadAllText("countries.json");
         List<Country> Countries = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(CountriesJson)??new();
         foreach (var country in Countries)
@@ -29,6 +36,7 @@ public class PersonsDbContext:DbContext
         List<Person> Persons = System.Text.Json.JsonSerializer.Deserialize<List<Person>>(PersonsJson) ?? new();
         foreach (var person in Persons)
             modelBuilder.Entity<Person>().HasData(person);
+
     }
 
     public List<Person> sp_GetAllPersons()
