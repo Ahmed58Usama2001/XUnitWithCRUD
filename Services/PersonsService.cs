@@ -44,7 +44,7 @@ public class PersonsService : IPersonService
 
     public List<PersonResponse> GetAllPersons()
     {
-        return _dbContext.Persons.ToList().Select(p=>ConvertPersonToPersonResponse(p)).ToList();
+        return _dbContext.sp_GetAllPersons().Select(p=>ConvertPersonToPersonResponse(p)).ToList();
     }
 
     public PersonResponse? GetPersonByPersonId(Guid? personId)

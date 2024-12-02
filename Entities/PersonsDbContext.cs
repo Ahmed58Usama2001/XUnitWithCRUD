@@ -28,9 +28,10 @@ public class PersonsDbContext:DbContext
         List<Person> Persons = System.Text.Json.JsonSerializer.Deserialize<List<Person>>(PersonsJson) ?? new();
         foreach (var person in Persons)
             modelBuilder.Entity<Person>().HasData(person);
+    }
 
-
-
-
+    public List<Person> sp_GetAllPersons()
+    {
+        return Persons.FromSqlRaw("Execute [dbo].[GetAllPersons]").ToList();
     }
 }
