@@ -5,17 +5,17 @@ namespace ServiceContracts;
 
 public interface IPersonService
 {
-    PersonResponse AddPerson(PersonAddRequest? personAddRequest);
+    Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest);
 
-    List<PersonResponse> GetAllPersons();
+    Task<List<PersonResponse>> GetAllPersons();
 
-    PersonResponse? GetPersonByPersonId(Guid? personId);
+    Task<PersonResponse?> GetPersonByPersonId(Guid? personId);
 
-    List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString);
+    Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString);
 
-    List<PersonResponse> GetSortedPersons(List<PersonResponse> persons , string sortBy , SortOrderOptions sortOrder);
+    Task<List<PersonResponse>> GetSortedPersons(List<PersonResponse> persons , string sortBy , SortOrderOptions sortOrder);
 
-    PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest);
+    Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest);
 
-    bool DeletePerson (Guid? personId);
+    Task<bool> DeletePerson (Guid? personId);
 }

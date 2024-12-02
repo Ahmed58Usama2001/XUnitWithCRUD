@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 
@@ -12,7 +13,7 @@ public class CountriesService : ICountriesService
     {
         _dbContext = dbContext;
     }
-    public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
+    public async Task<CountryResponse> AddCountry(CountryAddRequest? countryAddRequest)
     {
         if (countryAddRequest == null)
             throw new ArgumentNullException(nameof(countryAddRequest));
@@ -21,30 +22,30 @@ public class CountriesService : ICountriesService
             throw new ArgumentException(nameof(countryAddRequest.CountryName));
         
 
-        if (_dbContext.Countries.Where(c => c.CountryName == countryAddRequest.CountryName).Any())
+        if ( _dbContext.Countries.Where(c => c.CountryName == countryAddRequest.CountryName).Any())
             throw new ArgumentException("Given country name already exists");
 
         Country country = countryAddRequest.ToCountry();
 
         country.CountryId = Guid.NewGuid();
 
-        _dbContext.Countries.Add(country);
-        _dbContext.SaveChanges();
+       await _dbContext.Countries.AddAsync(country);
+        await _dbContext.SaveChangesAsync();
 
         return country.ToCountryResponse();
     }
 
-    public List<CountryResponse> GetAllCountries()
+    public async Task<List<CountryResponse>> GetAllCountries()
     {
-        return _dbContext.Countries.Select(c => c.ToCountryResponse()).ToList();
+        return await  _dbContext.Countries.Select(c => c.ToCountryResponse()).ToListAsync();
     }
 
-    public CountryResponse? GetCountryByCountryId(Guid? countryId)
+    public async Task<CountryResponse?> GetCountryByCountryId(Guid? countryId)
     {
         if (countryId is null)
             return null;
 
-        Country? country = _dbContext.Countries.FirstOrDefault(c => c.CountryId == countryId);
+        Country? country = await _dbContext.Countries.FirstOrDefaultAsync(c => c.CountryId == countryId);
 
         if (country == null)
             return null;
