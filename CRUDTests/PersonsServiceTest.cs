@@ -101,15 +101,15 @@ public class PersonsServiceTest
 
     #region GetAllPersons
     [Fact]
-    public void GetAllPersons_EmptyList()
+    public async Task GetAllPersons_EmptyList()
     {
-        List<PersonResponse> personResponse = _personService.GetAllPersons();
+        List<PersonResponse> personResponse =await _personService.GetAllPersons();
 
         Assert.Empty(personResponse);
     }
 
     [Fact]
-    public void GetAllPersons_AddFewPersons()
+    public async Task GetAllPersons_AddFewPersons()
     {
         CountryAddRequest countryAddRequest1 = new CountryAddRequest()
         {
@@ -120,8 +120,8 @@ public class PersonsServiceTest
             CountryName = "UK"
         };
 
-        CountryResponse countryResponse1= _countriesService.AddCountry(countryAddRequest1 );
-        CountryResponse countryResponse2 = _countriesService.AddCountry(countryAddRequest2 );
+        CountryResponse countryResponse1=await _countriesService.AddCountry(countryAddRequest1 );
+        CountryResponse countryResponse2 =await _countriesService.AddCountry(countryAddRequest2 );
 
         PersonAddRequest personAddRequest1 = new PersonAddRequest()
         {
@@ -166,7 +166,7 @@ public class PersonsServiceTest
         List<PersonResponse> personResponses = new List<PersonResponse>();
         foreach (var addRequest in personAddRequests)
         {
-            personResponses.Add(_personService.AddPerson(addRequest));
+            personResponses.Add(await _personService.AddPerson(addRequest));
         }
 
         _testOutputHelper.WriteLine("Expected");
@@ -175,7 +175,7 @@ public class PersonsServiceTest
             _testOutputHelper.WriteLine(person.ToString());
         }
 
-        List<PersonResponse> personResponsesFromGet=_personService.GetAllPersons();
+        List<PersonResponse> personResponsesFromGet= await _personService.GetAllPersons();
 
         _testOutputHelper.WriteLine("Actual");
         foreach (var person in personResponsesFromGet)
