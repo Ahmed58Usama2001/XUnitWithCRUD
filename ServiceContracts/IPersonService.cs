@@ -18,4 +18,6 @@ public interface IPersonService
     Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest);
 
     Task<bool> DeletePerson (Guid? personId);
+
+    Task<MemoryStream> GetPersonsExcel();
 }
