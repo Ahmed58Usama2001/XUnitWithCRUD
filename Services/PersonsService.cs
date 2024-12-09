@@ -254,39 +254,6 @@ public class PersonsService : IPersonService
         return memoryStream;
     }
 
-    public async Task<int> UploadCountriesFromExcelFile(IFormFile formFile)
-    {
-        MemoryStream memoryStream = new MemoryStream();
-        await formFile.CopyToAsync(memoryStream);
-        int countriesInserted = 0;
-
-        using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
-        {
-            ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets["Countries"];
-
-            int rowCount = workSheet.Dimension.Rows;
-
-            for (int row = 2; row <= rowCount; row++)
-            {
-                string? cellValue = Convert.ToString(workSheet.Cells[row, 1].Value);
-
-                if (!string.IsNullOrEmpty(cellValue))
-                {
-                    string? countryName = cellValue;
-
-                    if (_dbContext.Countries.Where(temp => temp.CountryName == countryName).Count() == 0)
-                    {
-                        Country country = new Country() { CountryName = countryName };
-                        _dbContext.Countries.Add(country);
-                        await _dbContext.SaveChangesAsync();
-
-                        countriesInserted++;
-                    }
-                }
-            }
-        }
-
-        return countriesInserted;
-    }
+    
 }
 
