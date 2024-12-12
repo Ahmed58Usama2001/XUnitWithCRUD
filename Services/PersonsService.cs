@@ -10,7 +10,7 @@ using System;
 
 namespace Services;
 
-public class PersonsService : IPersonService
+public class PersonsService : IPersonsService
 {
     private readonly ICountriesService _countryService;
     private readonly ApplicationDbContext _dbContext;

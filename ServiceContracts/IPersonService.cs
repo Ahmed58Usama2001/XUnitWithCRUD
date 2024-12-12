@@ -3,7 +3,7 @@ using ServiceContracts.DTO.Enums;
 
 namespace ServiceContracts;
 
-public interface IPersonService
+public interface IPersonsService
 {
     Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest);
 

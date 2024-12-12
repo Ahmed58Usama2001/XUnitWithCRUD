@@ -11,10 +11,10 @@ namespace XUnitWithCRUD.Controllers;
 [Route("[controller]")]
 public class PersonsController : Controller
 {
-    private readonly IPersonService _personService;
+    private readonly IPersonsService _personService;
     private readonly ICountriesService _countriesService;
 
-    public PersonsController(IPersonService personService, ICountriesService countriesService)
+    public PersonsController(IPersonsService personService, ICountriesService countriesService)
     {
         _personService = personService;
         _countriesService = countriesService;
