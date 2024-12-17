@@ -70,7 +70,7 @@ public class PersonsController : Controller
             ViewBag.Countries = countries;
 
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-            return View();
+            return View(request);
         }
 
         PersonResponse personResponse =await _personService.AddPerson(request);
