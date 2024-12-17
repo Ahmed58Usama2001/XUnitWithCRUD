@@ -57,7 +57,7 @@ public class PersonsControllerTest
     #region Create
 
     [Fact]
-    public async void Create_IfModelErrors_ToReturnCreateView()
+    public async Task Create_IfModelErrors_ToReturnCreateView()
     {
         PersonAddRequest person_add_request = _fixture.Create<PersonAddRequest>();
 
@@ -89,7 +89,7 @@ public class PersonsControllerTest
 
 
     [Fact]
-    public async void Create_IfNoModelErrors_ToReturnRedirectToIndex()
+    public async Task Create_IfNoModelErrors_ToReturnRedirectToIndex()
     {
         PersonAddRequest person_add_request = _fixture.Create<PersonAddRequest>();
 
