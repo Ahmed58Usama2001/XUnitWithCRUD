@@ -13,17 +13,23 @@ public class PersonsController : Controller
 {
     private readonly IPersonsService _personService;
     private readonly ICountriesService _countriesService;
+    private readonly ILogger<PersonsController> _logger;
 
-    public PersonsController(IPersonsService personService, ICountriesService countriesService)
+    public PersonsController(IPersonsService personService, ICountriesService countriesService, ILogger<PersonsController> logger)
     {
         _personService = personService;
         _countriesService = countriesService;
+        _logger = logger;
     }
     [Route("[action]")]
     [Route("/")]
     public async Task<IActionResult> Index(string searchBy , string? searchString,
         string sortBy = nameof(PersonResponse.PersonName) , SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
+        _logger.LogInformation("Index action method of PersonsController");
+
+        _logger.LogDebug($"searchBy: {searchBy}, searchString: {searchString}, sortBy: {sortBy}, sortOrder: {sortOrder}");
+
         ViewBag.SearchFields = new Dictionary<string, string>()
          {
             { nameof(PersonResponse.PersonName), "Person Name" },
@@ -50,6 +56,8 @@ public class PersonsController : Controller
     [HttpGet]
     public async Task<IActionResult> Create()
     {
+
+
         List<CountryResponse> countries =await _countriesService.GetAllCountries();
         ViewBag.Countries = countries.Select(c => new SelectListItem
         {

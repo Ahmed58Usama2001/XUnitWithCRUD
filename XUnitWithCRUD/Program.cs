@@ -14,6 +14,8 @@ public partial class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllersWithViews();
 
+        builder.Logging.ClearProviders().AddConsole();
+
         builder.Services.AddScoped<ICountriesRepository , CountriesRepository>();
         builder.Services.AddScoped<IPersonsRepository , PersonsRepository>();
         builder.Services.AddScoped<ICountriesService, CountriesService>();
