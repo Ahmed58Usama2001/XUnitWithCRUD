@@ -16,6 +16,15 @@ public partial class Program
 
         builder.Logging.ClearProviders().AddConsole();
 
+        builder.Services.AddHttpLogging(logging =>
+        {
+            logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestPath |
+                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestQuery |
+                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestHeaders |
+                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseHeaders |
+                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseStatusCode;
+        });
+
         builder.Services.AddScoped<ICountriesRepository , CountriesRepository>();
         builder.Services.AddScoped<IPersonsRepository , PersonsRepository>();
         builder.Services.AddScoped<ICountriesService, CountriesService>();
@@ -31,6 +40,8 @@ public partial class Program
 
         if(builder.Environment.IsDevelopment()) 
             app.UseDeveloperExceptionPage();
+
+        app.UseHttpLogging();
 
         if (!builder.Environment.IsEnvironment("Test"))
             Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
