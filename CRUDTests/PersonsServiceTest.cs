@@ -3,6 +3,7 @@ using Entities;
 using EntityFrameworkCoreMock;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 using RepositoryContracts;
 using ServiceContracts;
@@ -19,6 +20,7 @@ public class PersonsServiceTest
     private readonly IPersonsService _personService;
     private readonly Mock<IPersonsRepository> _personRepositoryMock;
     private readonly IPersonsRepository _personsRepository;
+    private readonly Mock<ILogger<PersonsService>> _loggerMock;
 
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly IFixture _fixture;
@@ -31,7 +33,9 @@ public class PersonsServiceTest
         _personsRepository = _personRepositoryMock.Object;
 
 
-        _personService = new PersonsService(_personsRepository);
+        _loggerMock = new Mock<ILogger<PersonsService>>();
+
+        _personService = new PersonsService(_personRepositoryMock.Object, _loggerMock.Object);
 
         _testOutputHelper = testOutputHelper;
     }
