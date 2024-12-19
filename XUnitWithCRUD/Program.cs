@@ -2,6 +2,7 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using RepositoryContracts;
+using Serilog;
 using ServiceContracts;
 using Services;
 
@@ -12,17 +13,21 @@ public partial class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) => {
+
+            loggerConfiguration
+            .ReadFrom.Configuration(context.Configuration) 
+            .ReadFrom.Services(services); 
+        });
+
         builder.Services.AddControllersWithViews();
 
         builder.Logging.ClearProviders().AddConsole();
 
-        builder.Services.AddHttpLogging(logging =>
+        builder.Services.AddHttpLogging(options =>
         {
-            logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestPath |
-                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestQuery |
-                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestHeaders |
-                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseHeaders |
-                                    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseStatusCode;
+            options.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestProperties | Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponsePropertiesAndHeaders;
         });
 
         builder.Services.AddScoped<ICountriesRepository , CountriesRepository>();
