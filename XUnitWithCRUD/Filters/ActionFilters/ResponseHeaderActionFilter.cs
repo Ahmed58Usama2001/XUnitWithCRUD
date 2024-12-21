@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CRUDExample.Filters.ActionFilters;
+namespace XUnitWithCRUD.Filters.ActionFilters;
 
 public class ResponseHeaderActionFilter : IAsyncActionFilter
 {

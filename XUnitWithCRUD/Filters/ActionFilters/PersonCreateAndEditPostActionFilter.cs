@@ -4,7 +4,7 @@ using ServiceContracts;
 using ServiceContracts.DTO;
 using XUnitWithCRUD.Controllers;
 
-namespace CRUDExample.Filters.ActionFilters;
+namespace XUnitWithCRUD.Filters.ActionFilters;
 
 public class PersonCreateAndEditPostActionFilter : IAsyncActionFilter
 {

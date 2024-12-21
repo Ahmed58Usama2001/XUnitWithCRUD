@@ -1,4 +1,5 @@
-﻿using CRUDExample.Filters.ActionFilters;
+﻿using XUnitWithCRUD.Filters.ActionFilters;
+using XUnitWithCRUD.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
@@ -25,6 +26,7 @@ public class PersonsController : Controller
     [Route("/")]
     [TypeFilter(typeof(PersonsListActionFilter))]
     [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "MyKey-FromAction", "MyValue-From-Action" })]
+    [TypeFilter(typeof(PersonsListResultFilter))]
 
     public async Task<IActionResult> Index(string searchBy , string? searchString,
         string sortBy = nameof(PersonResponse.PersonName) , SortOrderOptions sortOrder = SortOrderOptions.ASC)
