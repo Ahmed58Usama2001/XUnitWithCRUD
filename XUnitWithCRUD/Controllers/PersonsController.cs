@@ -57,17 +57,9 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [HttpPost]
+    [TypeFilter(typeof(PersonCreateAndEditPostActionFilter))]
     public async Task<IActionResult> Create(PersonAddRequest request)
-    {
-        if (!ModelState.IsValid)
-        {
-            List<CountryResponse> countries =await _countriesService.GetAllCountries();
-            ViewBag.Countries = countries;
-
-            ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-            return View(request);
-        }
-
+    {   
         PersonResponse personResponse =await _personService.AddPerson(request);
 
         return RedirectToAction("Index", "Persons");
@@ -94,6 +86,7 @@ public class PersonsController : Controller
 
     [HttpPost]
     [Route("[action]/{PersonId}")]
+    [TypeFilter(typeof(PersonCreateAndEditPostActionFilter))]
     public async Task<IActionResult> Edit(PersonUpdateRequest personUpdateRequest)
     {
         PersonResponse? personResponse =await _personService.GetPersonByPersonId(personUpdateRequest.PersonId);
@@ -103,20 +96,8 @@ public class PersonsController : Controller
             return RedirectToAction("Index");
         }
 
-        if (ModelState.IsValid)
-        {
-            PersonResponse updatedPerson =await _personService.UpdatePerson(personUpdateRequest);
-            return RedirectToAction("Index");
-        }
-        else
-        {
-            List<CountryResponse> countries =await _countriesService.GetAllCountries();
-            ViewBag.Countries = countries.Select(temp =>
-            new SelectListItem() { Text = temp.CountryName, Value = temp.CountryId.ToString() });
-
-            ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-            return View();
-        }
+        PersonResponse updatedPerson =await _personService.UpdatePerson(personUpdateRequest);
+        return RedirectToAction("Index");
     }
 
 
