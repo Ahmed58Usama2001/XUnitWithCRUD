@@ -8,6 +8,7 @@ using ServiceContracts.DTO.Enums;
 
 namespace XUnitWithCRUD.Controllers;
 [Route("[controller]")]
+[TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "My-Key-From-Controller", "My-Value-From-Controller" })]
 public class PersonsController : Controller
 {
     private readonly IPersonsService _personService;
@@ -40,7 +41,6 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [HttpGet]
-    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "MyKey-FromAction", "MyValue-From-Action" })]
     public async Task<IActionResult> Create()
     {
 

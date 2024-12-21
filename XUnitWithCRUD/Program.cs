@@ -1,3 +1,4 @@
+using CRUDExample.Filters.ActionFilters;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
@@ -21,8 +22,12 @@ public partial class Program
             .ReadFrom.Services(services); 
         });
 
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews(options => {
 
+            var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<ResponseHeaderActionFilter>>();
+
+            options.Filters.Add(new ResponseHeaderActionFilter(logger, "My-Key-From-Global", "My-Value-From-Global"));
+        });
         builder.Logging.ClearProviders().AddConsole();
 
         builder.Services.AddHttpLogging(options =>
