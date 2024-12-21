@@ -5,8 +5,6 @@ using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.DTO.Enums;
-using Services;
-using System.Collections.Generic;
 
 namespace XUnitWithCRUD.Controllers;
 [Route("[controller]")]
@@ -25,6 +23,8 @@ public class PersonsController : Controller
     [Route("[action]")]
     [Route("/")]
     [TypeFilter(typeof(PersonsListActionFilter))]
+    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "MyKey-FromAction", "MyValue-From-Action" })]
+
     public async Task<IActionResult> Index(string searchBy , string? searchString,
         string sortBy = nameof(PersonResponse.PersonName) , SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
@@ -40,6 +40,7 @@ public class PersonsController : Controller
 
     [Route("[action]")]
     [HttpGet]
+    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "MyKey-FromAction", "MyValue-From-Action" })]
     public async Task<IActionResult> Create()
     {
 
@@ -73,7 +74,7 @@ public class PersonsController : Controller
     }
 
     [HttpGet]
-    [Route("[action]/{personId}")] //Eg: /persons/edit/1
+    [Route("[action]/{personId}")] 
     public async Task<IActionResult> Edit(Guid personId)
     {
         PersonResponse? personResponse =await _personService.GetPersonByPersonId(personId);
