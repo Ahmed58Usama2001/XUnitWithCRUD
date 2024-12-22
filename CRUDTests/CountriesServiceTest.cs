@@ -9,7 +9,7 @@ using ServiceContracts;
 using ServiceContracts.DTO;
 using Services;
 
-namespace CRUDTests;
+namespace XUnitWithCRUD;
 
 public class CountriesServiceTest
 {

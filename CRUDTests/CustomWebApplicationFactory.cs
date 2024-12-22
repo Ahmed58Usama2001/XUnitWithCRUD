@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using XUnitWithCRUD;
 
-namespace CRUDTests;
+namespace XUnitWithCRUD;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {

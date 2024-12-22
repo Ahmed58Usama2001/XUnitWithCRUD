@@ -19,11 +19,12 @@ _value = value;
 public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 {
 _logger.LogInformation("{FilterName}.{MethodName} method - before", nameof(ResponseHeaderActionFilter), nameof(OnActionExecutionAsync));
+        context.HttpContext.Response.Headers[_key] = _value;
+
 
 await next(); 
 
 _logger.LogInformation("{FilterName}.{MethodName} method - after", nameof(ResponseHeaderActionFilter), nameof(OnActionExecutionAsync));
 
-context.HttpContext.Response.Headers[_key] = _value;
 }
 }

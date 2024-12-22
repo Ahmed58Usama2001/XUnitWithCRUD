@@ -2,7 +2,7 @@
 using FluentAssertions;
 using HtmlAgilityPack;
 
-namespace CRUDTests;
+namespace XUnitWithCRUD;
 
 public class PersonsControllerIntegrationTest : IClassFixture<CustomWebApplicationFactory>
 {
