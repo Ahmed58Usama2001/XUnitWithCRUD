@@ -1,4 +1,3 @@
-using CRUDExample.Filters.ActionFilters;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
@@ -6,6 +5,7 @@ using RepositoryContracts;
 using Serilog;
 using ServiceContracts;
 using Services;
+using XUnitWithCRUD.Filters.ActionFilters;
 
 namespace XUnitWithCRUD;
 

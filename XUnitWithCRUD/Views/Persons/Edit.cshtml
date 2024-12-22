@@ -4,10 +4,24 @@
  ViewBag.Title = "Edit Person";
 }
 
-<a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons List</a>
-<h2>Edit Person</h2>
+<div class="flex">
+ <div class="flex-1">
+  <div class="text-grey">
+   <span>Contacts</span>
+   <i class="fa-solid fa-caret-right"></i>
+   <span class="text-grey">Persons</span>
+   <i class="fa-solid fa-caret-right"></i>
+   <span class="text-grey">Edit</span>
+  </div>
+ </div>
+</div>
 
-<div class="center-box">
+
+
+<div class="form-container">
+ <a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons List</a>
+ <h2 class="text-large">Edit Person</h2>
+
  <form asp-controller="Persons" asp-action="Edit" method="post">
 
   <input type="hidden" asp-for="PersonId" />
@@ -38,7 +52,7 @@
     <label asp-for="DateOfBirth" class="form-label pt">Date of Birth</label>
    </div>
    <div class="flex-1">
-    <input asp-for="DateOfBirth" class="form-input" />
+    <input type="date" asp-for="DateOfBirth" class="form-input" />
     <span asp-validation-for="DateOfBirth" class="text-red"></span>
    </div>
   </div>
@@ -53,7 +67,7 @@
     }
     @foreach (string gender in genders)
     {
-     <input type="radio" asp-for="Gender" value="@gender" />
+     <input type="radio" asp-for="Gender" value="@gender" id="@gender" />
      <label for="@gender">@gender</label>
     }
     <span asp-validation-for="Gender" class="text-red"></span>
@@ -65,10 +79,10 @@
     <label class="form-label" asp-for="CountryId">Country</label>
    </div>
    <div class="flex-1">
-                <select asp-for="CountryId" class="form-input" asp-items="@ViewBag.Countries">
+    <select asp-for="CountryId" class="form-input" asp-items="@ViewBag.Countries">
      <option value="">Please Select</option>
     </select>
-                <span asp-validation-for="CountryId" class="text-red"></span>
+    <span asp-validation-for="CountryId" class="text-red"></span>
    </div>
   </div>
 

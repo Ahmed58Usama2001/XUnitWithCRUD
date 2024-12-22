@@ -4,11 +4,26 @@
  ViewBag.Title = "Create Person";
 }
 
-<a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons List</a>
-<h2>Create Person</h2>
+<div class="flex">
+ <div class="flex-1">
+  <div class="text-grey">
+   <span>Contacts</span>
+   <i class="fa-solId fa-caret-right"></i>
+   <span class="text-grey">Persons</span>
+   <i class="fa-solId fa-caret-right"></i>
+   <span class="text-grey">Create</span>
+  </div>
+ </div>
+</div>
 
-<div class="center-box">
-    <form asp-controller="Persons" asp-action="Create" method="post">
+
+
+<div class="form-container">
+
+    <a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons List</a>
+<h2 class="text-large">Create Person</h2>
+
+ <form asp-controller="Persons" asp-action="Create" method="post">
 
   <div class="form-field flex">
    <div class="w-25">
@@ -16,30 +31,28 @@
    </div>
    <div class="flex-1">
     <input asp-for="PersonName" class="form-input" />
-    <span asp-validation-for="PersonName" class="text-red"></span>
+    <span asp-valIdation-for="PersonName" class="text-red"></span>
    </div>
   </div>
 
 
   <div class="form-field flex">
    <div class="w-25">
-                <label asp-for="Email" class="form-label pt">Email</label>
+    <label asp-for="Email" class="form-label pt">Email</label>
    </div>
    <div class="flex-1">
     <input asp-for="Email" class="form-input" />
-                <span asp-validation-for="Email" class="text-red"></span>
-
+    <span asp-valIdation-for="Email" class="text-red"></span>
    </div>
   </div>
 
   <div class="form-field flex">
    <div class="w-25">
-                <label asp-for="DateOfBirth" class="form-label pt">Date of Birth</label>
+    <label asp-for="DateOfBirth" class="form-label pt">Date of Birth</label>
    </div>
    <div class="flex-1">
     <input type="date" asp-for="DateOfBirth" class="form-input" />
-                <span asp-validation-for="DateOfBirth" class="text-red"></span>
-
+    <span asp-valIdation-for="DateOfBirth" class="text-red"></span>
    </div>
   </div>
 
@@ -48,42 +61,38 @@
     <label class="form-label">Gender</label>
    </div>
    <div class="flex-1">
-                @foreach(string gender in (string[]) Enum.GetNames(typeof(GenderOptions)))
-                {
-                    <input type="radio" asp-for="Gender" value="@gender" />
-                    <span asp-validation-for="Gender" class="text-red"></span>
-
-                    <label for="@gender">@gender</label>
-
-                }
-                
- 
+    @{
+     string[] genders = (string[])Enum.GetNames(typeof(GenderOptions));
+    }
+    @foreach (string gender in genders)
+    {
+     <input type="radio" asp-for="Gender" value="@gender" Id="@gender" />
+     <label for="@gender">@gender</label>
+    }
+    <span asp-valIdation-for="Gender" class="text-red"></span>
    </div>
   </div>
 
   <div class="form-field flex">
    <div class="w-25">
-                <label class="form-label" asp-for="CountryId">Country</label>
+    <label class="form-label" asp-for="CountryId">Country</label>
    </div>
    <div class="flex-1">
-                <select asp-for="CountryId" class="form-input" asp-items="ViewBag.Countries">
+    <select asp-for="CountryId" class="form-input" asp-items="@ViewBag.Countries">
      <option value="">Please Select</option>
-     
     </select>
-                <span asp-validation-for="CountryId" class="text-red"></span>
-
+    <span asp-valIdation-for="CountryId" class="text-red"></span>
    </div>
   </div>
 
 
   <div class="form-field flex">
    <div class="w-25">
-                <label asp-for="Address" class="form-label pt">Address</label>
+    <label asp-for="Address" class="form-label pt">Address</label>
    </div>
    <div class="flex-1">
     <textarea asp-for="Address" class="form-input"></textarea>
-                <span asp-validation-for="Address" class="text-red"></span>
-
+    <span asp-valIdation-for="Address" class="text-red"></span>
    </div>
   </div>
 
@@ -91,10 +100,9 @@
    <div class="w-25">
    </div>
    <div class="flex-1">
-    <input  asp-for="ReceiveNewsLetters" value="true" />
-                <label asp-for="ReceiveNewsLetters" class="form-label">Receive News Letters</label>
-                <span asp-validation-for="ReceiveNewsLetters" class="text-red"></span>
-
+    <input asp-for="ReceiveNewsLetters" value="true" />
+    <label asp-for="ReceiveNewsLetters" class="form-label">Receive News Letters</label>
+    <span asp-valIdation-for="ReceiveNewsLetters" class="text-red"></span>
    </div>
   </div>
 
@@ -104,7 +112,8 @@
    <div class="flex-1">
     <button class="button button-green-back">Create</button>
 
-    <div asp-validation-summary="All" class="text-red"></div>
+    <div asp-valIdation-summary="All" class="text-red"></div>
+
     @if (ViewBag.Errors != null)
     {
      <div class="text-red ml">
@@ -122,12 +131,11 @@
  </form>
 </div>
 
-
 @section scripts
-{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js"></script>
+ {
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-valIdate/1.19.4/jquery.valIdate.min.js" asp-fallback-test="window.jQuery.valIdator" asp-fallback-src="~/jquery.valIdate.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validator.unobstrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-valIdation-unobtrusive/3.2.12/jquery.valIdate.unobtrusive.min.js" asp-fallback-test="window.jQuery.valIdator.unobstrusive" asp-fallback-src="~/jquery.valIdate.unobtrusive.min.js"></script>
 }
