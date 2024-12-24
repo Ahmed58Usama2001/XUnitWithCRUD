@@ -1,3 +1,4 @@
+using CRUDExample.Middleware;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
@@ -30,8 +31,10 @@ public partial class Program
 
         if(builder.Environment.IsDevelopment()) 
             app.UseDeveloperExceptionPage();
+        else
+            app.UseExceptionHandlingMiddleware();
 
-        app.UseHttpLogging();
+            app.UseHttpLogging();
 
         if (!builder.Environment.IsEnvironment("Test"))
             Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
